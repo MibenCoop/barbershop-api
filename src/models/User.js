@@ -13,6 +13,10 @@ const schema = new mongoose.Schema(
       index: true,
       unique: true
     },
+    username: {
+      type: String,
+      required: true,
+    },
     passwordHash: { type: String, required: true },
     confirmed: { type: Boolean, default: false }
   },
@@ -27,12 +31,16 @@ schema.methods.setPassword = function setPassword(password) {
   this.passwordHash = bcrypt.hashSync(password, 10);
 };
 
+schema.methods.setUsername = function setUsername(username) {
+  this.username = username;
+};
+
 schema.methods.generateJWT = function generateJWT() {
   return jwt.sign(
     {
       email: this.email
     },
-    process.env.JWT_SECRET
+    "process.env.JWT_SECRET"
   );
 };
 
