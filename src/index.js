@@ -7,6 +7,7 @@ import Promise from "bluebird";
 
 import auth from "./routes/auth";
 import users from "./routes/users";
+import tickets from "./routes/tickets";
 
 dotenv.config();
 const app = express();
@@ -16,7 +17,7 @@ mongoose.connect('mongodb://localhost/barbershop');
 
 app.use("/api/auth", auth);
 app.use("/api/users", users);
-
+app.use("/api/bookTickets", tickets);
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
