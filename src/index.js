@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost/barbershop');
 
 app.use("/api/auth", auth);
 app.use("/api/users", users);
-app.use("/api/bookTickets", tickets);
+app.use("/api/tickets", tickets);
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });

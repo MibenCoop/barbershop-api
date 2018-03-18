@@ -9,12 +9,9 @@ export default (req, res, next) => {
 
   if (token) {
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    	console.log("beforeBLBALBLA");
       if (err) {
-      	console.log("errBLBALBLA");
         res.status(401).json({ errors: { global: "Invalid token" } });
       } else {
-      	console.log("BLBALBLA");
         User.findOne({ email: decoded.email }).then(user => {
           req.currentUser = user;
           next();
