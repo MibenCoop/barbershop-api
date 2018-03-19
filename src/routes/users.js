@@ -7,18 +7,19 @@ const router = express.Router();
 
 router.post( "/", ( req, res ) => {
 	const { email, username, password } = req.body.user;                               
-	//Check on same email in database
-	User.findOne({email: email}).then(user => {
+	// TODO Maybe beatify this function
+	User.findOne({email}).then(user => {
 		if ( user === null ){
-			const user = new User( { email } );
-			user.setUsername( username );
-			user.setPassword( password );
-			user
+			const userCredentials = new User( { email } );
+			userCredentials.setUsername( username );
+			userCredentials.setPassword( password );
+			userCredentials
 				.save()
 				.then( userRecord => res.json( { user: userRecord.toAuthJSON() } ) )
 				.catch(err => res.status(400).json({ errors: parseErrors(err.errors)}))
 		} else {
-			throw 'This email is already registered';
+			const error = 'This email is already registered';
+			throw error;
 		}
 	}).catch(err => res.status(400).json({ errors: {global: err}}));
 	} 
