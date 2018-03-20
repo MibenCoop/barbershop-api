@@ -3,8 +3,6 @@ import User from "../models/User";
 
 const router = express.Router();
 
-// console.log('auth');
-
 router.post("/", (req, res) => {
 	const { credentials } = req.body;
 	User.findOne({ email: credentials.email }).then(user => {

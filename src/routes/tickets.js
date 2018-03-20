@@ -4,8 +4,6 @@ import Ticket from "../models/Ticket";
 import authenticate from "../middlewares/authenticate";
 
 const router = express.Router();
-
-// console.log('auth');
 router.use(authenticate);
 
 

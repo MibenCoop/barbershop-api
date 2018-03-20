@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User";
-import JWT_SECRET from '../constants.js'
+import JWT_SECRET from '../constants'
+
 export default (req, res, next) => {
   const header = req.headers.authorization;
   let token;
