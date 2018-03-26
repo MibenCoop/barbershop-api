@@ -7,7 +7,6 @@ const router = express.Router();
 
 router.post( "/", ( req, res ) => {
 	const { email, username, password } = req.body.user;                               
-	// TODO Maybe beatify this function
 	User.findOne({email}).then(user => {
 		if ( user === null ){
 			const userCredentials = new User( { email } );
@@ -18,7 +17,7 @@ router.post( "/", ( req, res ) => {
 				.then( userRecord => res.json( { user: userRecord.toAuthJSON() } ) )
 				.catch(err => res.status(400).json({ errors: parseErrors(err.errors)}))
 		} else {
-			const error = 'This email is already registered';
+			const error = 'Эта почта уже зарегистрирована';
 			throw error;
 		}
 	}).catch(err => res.status(400).json({ errors: {global: err}}));

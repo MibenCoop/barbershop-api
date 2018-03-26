@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import uniqueValidator from "mongoose-unique-validator";
 import JWT_SECRET from '../constants'
-// TODO: add uniqueness and email validations to email field
+
 const schema = new mongoose.Schema(
   {
     email: {
@@ -18,9 +18,7 @@ const schema = new mongoose.Schema(
       required: true,
     },
     passwordHash: { type: String, required: true },
-    confirmed: { type: Boolean, default: false }
-  },
-  { timestamps: true }
+  }
 );
 
 schema.methods.isValidPassword = function isValidPassword(password) {

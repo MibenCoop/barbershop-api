@@ -6,8 +6,6 @@ import authenticate from "../middlewares/authenticate";
 const router = express.Router();
 router.use(authenticate);
 
-
-// TODO throw object, not string
 router.post("/", (req, res) => {
 	const {date, time } = req.body.data;
 	const ticketCredentials = new Ticket( { userId: req.currentUser._id } );
@@ -21,13 +19,12 @@ router.post("/", (req, res) => {
 					.then( ticket => res.json({ ticket }))
 					.catch(err => res.status(400).json({ errors: err.errors}))
 			} else {
-				const error = 'This time is already taken'
+				const error = 'К сожалению, это время уже занято.'
 				throw error;
 			}
 		})
 		.catch(err => res.status(400).json({ errors: {global: err}}));
 });
-
 
 router.post("/delete", (req, res) => {
 	const _id = mongoose.Types.ObjectId(req.body.id);
