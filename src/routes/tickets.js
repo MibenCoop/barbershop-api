@@ -7,13 +7,14 @@ const router = express.Router();
 router.use(authenticate);
 
 router.post("/", (req, res) => {
-	const {date, time } = req.body.data;
+	const {date, time, master } = req.body.data;
 	const ticketCredentials = new Ticket( { userId: req.currentUser._id } );
 	Ticket.find({date, time})
 		.then((tickets) => {
 			if ( tickets.length === 0) {
 				ticketCredentials.date = date;
 				ticketCredentials.time = time;
+				ticketCredentials.master = master;
 				ticketCredentials
 					.save()
 					.then( ticket => res.json({ ticket }))
