@@ -7,8 +7,7 @@ router.use(authenticate);
 
 router.get("/", (req, res) => {
 	Master.find()
-	.then((masters) => {
-		return res.status(200).json({masters})})
+	.then((masters) => res.status(200).json({masters}))
 	.catch((err) => res.status(400).json({errors: err.errors}))
 });
 

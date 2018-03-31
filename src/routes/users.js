@@ -1,9 +1,12 @@
 import express from "express";
+import mongoose from "mongoose";
 import User from "../models/User";
 import parseErrors from "../utils/parseErrors";
+import authenticate from "../middlewares/authenticate";
 
 const router = express.Router();
 
+router.use(authenticate);
 
 router.post( "/", ( req, res ) => {
 	const { email, username, password } = req.body.user;                               
@@ -24,4 +27,27 @@ router.post( "/", ( req, res ) => {
 	} 
 );
 
+
+router.get( "/", (req, res) => {
+	const _id = mongoose.Types.ObjectId(req.currentUser._id);
+	User.find({_id})
+		.then((user) => res.status(200).json({user}))
+		.catch((err) => res.status(400).json({errors: err.errors}))
+})
+
+router.post( "/changePassword", ( req, res ) => {
+	const { oldPassword, newPassword, newPasswordConfirm } = req.body.passwords;  
+	const _id = mongoose.Types.ObjectId(req.currentUser._id);                     
+	User.findOne({_id}).then(user => {
+		if ((user && user.isValidPassword(oldPassword)) && (newPassword === newPasswordConfirm)) {
+			user.setPassword(newPassword);
+			user.save()
+				.then(userCredentials => res.status(200).json({user: userCredentials}))
+		} else {
+			res.status(400).json({ errors: { global: "Неправильный старый пароль" } });
+		}
+	}).catch(err => res.status(400).json({ errors: {global: err}})); 
+
+	}
+);
 export default router;

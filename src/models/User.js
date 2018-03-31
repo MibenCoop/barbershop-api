@@ -36,7 +36,8 @@ schema.methods.setUsername = function setUsername(username) {
 schema.methods.generateJWT = function generateJWT() {
   return jwt.sign(
     {
-      email: this.email
+      email: this.email,
+      username: this.username
     },
     JWT_SECRET
   );
@@ -45,6 +46,7 @@ schema.methods.generateJWT = function generateJWT() {
 schema.methods.toAuthJSON = function toAuthJSON() {
   return {
     email: this.email,
+    username: this.username,
     token: this.generateJWT()
   };
 };
