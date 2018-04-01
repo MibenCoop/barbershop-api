@@ -8,9 +8,8 @@ export default (req, res, next) => {
   if (header) token = header.split(" ")[1];
   if (token) {
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      console.log('decoded',decoded);
       if (err) {
-        res.status(401).json({ errors: { global: "Invalid token" } });
+        res.status(401).json({ errors: { global: "Некорректный токен" } });
       } else {
         User.findOne({ email: decoded.email }).then(user => {
           req.currentUser = user;
@@ -19,6 +18,6 @@ export default (req, res, next) => {
       }
     });
   } else {
-    res.status(401).json({ errors: { global: "No token" } });
+    res.status(401).json({ errors: { global: "Токен отсутствует" } });
   }
 };

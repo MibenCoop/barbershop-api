@@ -6,7 +6,6 @@ import authenticate from "../middlewares/authenticate";
 
 const router = express.Router();
 
-router.use(authenticate);
 
 router.post( "/", ( req, res ) => {
 	const { email, username, password } = req.body.user;                               
@@ -26,6 +25,8 @@ router.post( "/", ( req, res ) => {
 	}).catch(err => res.status(400).json({ errors: {global: err}}));
 	} 
 );
+
+router.use(authenticate);
 
 
 router.get( "/", (req, res) => {
